@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#define _CRT_SECURE_NO_WARNINGS
+
 
 void helloWorld();
 int showResult(int result);
@@ -10,24 +12,15 @@ float tempConversion(char initialUnit, float value);
 bool evenOdd(int num);
 int sumEvenTIllSelected(int upperLimit);
 void primeNum(int num);
+void userInput();
+int sumArr(int arr[], int size);
+void findMinMax(int arr[], int size, int* min, int* max);
+void revArr(int arr[], int size);
+
 
 int main() {
-    //helloWorld();
 
-
-    //int x = 10;
-    //int y = 5;
-    //char sign = '+';
-
-    //calc(x, sign, y);
-
-    //tempConversion('c', 36.6);
-    //tempConversion('F', 100.1);
-    //evenOdd(11);
-    //sumEvenTIllSelected(10);
-    //primeNum(24);
-
-
+    userInput();
     return 0;
 }
 
@@ -140,4 +133,77 @@ void primeNum(int num) {
     }
 
     printf("Prime\n");
+}
+
+
+//project num1
+//Create a program that allows the user to enter 10 integers, 
+// stores them in an array, and then performs the following operations :
+
+//Prints the array.
+//Calculates and prints the sum of all elements.
+//Finds and prints the maximum and minimum values.
+//Reverses the array and prints it.
+
+void userInput() {
+    int arr[10];
+    int userInput = 0;
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    //printf("%i", sizeof(arr)/4); int = 4 bytes
+    for (int i = 0; i < size; i++) {
+        printf("Insert 10 numbers. Insert the %dth number: ", i + 1);
+        scanf_s("%d", &userInput); //scanf_s for security // & because it need the address of the location.
+        arr[i] = userInput;
+    }
+
+    //1
+    printf("The numbers you entered are: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    //2
+    printf("THe sum is: %i", sumArr(arr, size));
+
+    printf("\n");
+
+    //3
+    int min, max;
+    findMinMax(arr, size, &min, &max);
+    printf("The min is: %d\nThe max is: %d\n", min, max);
+
+    printf("\n");
+
+    //2
+    revArr(arr, size);
+    printf("\n");
+}
+
+int sumArr(int arr[], int size) {
+    int result = 0;
+    for (int i = 0; i < size; i++) {
+        result+=arr[i];
+    }
+    return result;
+}
+
+void findMinMax(int arr[], int size, int *min, int * max) {
+    *min = arr[0];
+    *max = arr[1];
+    
+    for (int i = 2; i < size; i++) {
+        if (arr[i] > *max)
+            *max = arr[i];
+        if (arr[i] < *min)
+            *min = arr[i];
+    }
+}
+
+void revArr(int arr[], int size) {
+    printf("Reversed array:");
+    for (int i = size - 1; i >= 0; i--) {
+        printf("%d ", arr[i]);
+    }
 }
