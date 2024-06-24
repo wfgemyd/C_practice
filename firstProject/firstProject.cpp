@@ -16,11 +16,18 @@ void userInput();
 int sumArr(int arr[], int size);
 void findMinMax(int arr[], int size, int* min, int* max);
 void revArr(int arr[], int size);
-
+void swapInts(int* one, int* two);
 
 int main() {
 
-    userInput();
+    //userInput();
+
+    int one = 2;
+    int two = 3;
+    printf("one: %d \n two: %d", one, two);
+    swapInts(&one, &two);
+    printf("one: %d \n two: %d", one, two);
+
     return 0;
 }
 
@@ -207,3 +214,21 @@ void revArr(int arr[], int size) {
         printf("%d ", arr[i]);
     }
 }
+
+//Project num2
+//Write a program that swaps the values of two integers using pointers. The program should:
+
+//Take two integer inputs from the user.
+//Swap their values using a function that takes two integer pointers as arguments.
+//Print the values before and after the swap.
+
+void swapInts(int* one, int* two) { //by value
+    printf("\nONE: %p\n", one);
+    printf("ONE*: %d\n", *one);
+    printf("ONE&: %p\n", &one);
+    int temp = *one;
+    *one = *two;
+    *two = temp;
+}
+
+//Project num2.1
