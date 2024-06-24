@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <cstdlib>
 #define _CRT_SECURE_NO_WARNINGS
 
 
@@ -17,17 +18,29 @@ int sumArr(int arr[], int size);
 void findMinMax(int arr[], int size, int* min, int* max);
 void revArr(int arr[], int size);
 void swapInts(int* one, int* two);
+void projectTwoOne(int* ar, int size);
 
 int main() {
 
     //userInput();
 
-    int one = 2;
-    int two = 3;
-    printf("one: %d \n two: %d", one, two);
-    swapInts(&one, &two);
-    printf("one: %d \n two: %d", one, two);
+    //int one = 2;
+    //int two = 3;
+    //printf("one: %d \n two: %d", one, two);
+    //swapInts(&one, &two);
+    //printf("one: %d \n two: %d", one, two);
+    int *ar;
+    int size = 5;
+    ar = (int*)malloc(sizeof(int) * size);
 
+    for (int i = 0; i < size; i++)
+        ar[i] = i + 4;
+
+    projectTwoOne(ar, size);
+    
+    
+
+    free(ar);
     return 0;
 }
 
@@ -232,3 +245,24 @@ void swapInts(int* one, int* two) { //by value
 }
 
 //Project num2.1
+//Task:
+//Write a program that :
+
+//Declares an array of 5 integers.
+//Initializes the array with values from the user.
+//Uses a pointer to traverse the array and print each element.
+//Uses a pointer to modify each element by multiplying it by 2.
+//Prints the modified array.
+void projectTwoOne(int ar[], int size) {
+    ar = (int*)malloc(sizeof(int) * size);
+    // Initialize the array with some values
+    for (int i = 0; i < size; i++) {
+        ar[i] = i + 1 * 2;
+    }
+    // Print the array
+    printf("Array elements: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", ar[i]);
+    }
+    printf("\n");
+}
