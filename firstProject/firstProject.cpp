@@ -29,18 +29,20 @@ int main() {
     //printf("one: %d \n two: %d", one, two);
     //swapInts(&one, &two);
     //printf("one: %d \n two: %d", one, two);
-    int *ar;
-    int size = 5;
-    ar = (int*)malloc(sizeof(int) * size);
-
-    for (int i = 0; i < size; i++)
-        ar[i] = i + 4;
-
-    projectTwoOne(ar, size);
     
-    
+    //int *ar;
+    //int size = 5;
+    //ar = (int*)malloc(sizeof(int) * size);
 
-    free(ar);
+    //for (int i = 0; i < size; i++)
+        //ar[i] = i + 4;
+
+    //projectTwoOne(ar, size);
+    //free(ar);
+
+
+
+
     return 0;
 }
 
@@ -266,3 +268,5 @@ void projectTwoOne(int ar[], int size) {
     }
     printf("\n");
 }
+
+ 
