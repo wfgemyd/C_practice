@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-
+#include <cstdbool>
 
 
 typedef struct node {
@@ -18,7 +18,8 @@ Node* insert_at_head(Node* head, int new_value);
 Node* insert_at_tail(Node* head, int new_value);
 Node* deleteNodeAtHead(Node* head);
 Node* deleteNodeAtTail(Node* head);
-int search(Node* head, int value);
+bool isMember(Node* node, int value);
+int searchIndex(Node* head, int value);
 
 
 
@@ -52,7 +53,8 @@ int main() {
 	n = insert_at_head(n, 22);
 	printList(n);
 	listLen(n);
-	search(n, 2);
+	if(isMember(n,2))
+		searchIndex(n, 2);
 
 
 	free(n);
@@ -138,7 +140,15 @@ Node* deleteNodeAtTail(Node* head) {
 	}
 }
 
-int search(Node* head, int value) {
+bool isMember(Node* node, int value) {
+	if (node == NULL)
+		return false;
+	else if (node->value == value)
+		return true;
+	else return isMember(node->next, value);
+}
+
+int searchIndex(Node* head, int value) {
 	if (head == NULL) {
 		return -1; // List is empty
 	}
