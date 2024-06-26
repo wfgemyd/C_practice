@@ -13,26 +13,50 @@ typedef struct node {
 
 //declaration
 void printList(Node* head);
-void addToList(Node* head);
+int listLen(Node* head);
+Node* insert_at_head(Node* head, int new_value);
+Node* insert_at_tail(Node* head, int new_value);
+Node* deleteNodeAtHead(Node* head);
+Node* deleteNodeAtTail(Node* head);
+int search(Node* head, int value);
+
+
+
 
 int main() {
 	//create the nodes
-	Node a, b, c;
-
-
-	//initialize values
-	a.value = 5;
-	b.value = 3;
-	c.value = 8;
-
-	//initialize pointes
-	a.next = &b;
-	b.next = &c;
-	c.next = NULL;
+	Node *n = NULL;
 
 	//testing functions
-	printList(&a);
-	addToList(&a);
+	
+	n = insert_at_head(n, 7);
+	n = insert_at_head(n, 5);
+	n = insert_at_head(n, 2);
+	n = insert_at_head(n, 1);
+
+	n = insert_at_tail(n, 15);
+	printList(n);
+	printf("\n");
+
+	n = deleteNodeAtHead(n);
+	printList(n);
+	printf("\n");
+	n = deleteNodeAtTail(n);
+
+
+	n = insert_at_head(n, 53);
+	n = insert_at_head(n, 72);
+	n = insert_at_head(n, 56);
+	n = insert_at_head(n, 54);
+	n = insert_at_head(n, 61);
+	n = insert_at_head(n, 22);
+	printList(n);
+	listLen(n);
+	search(n, 2);
+
+
+	free(n);
+	return 0;
 }
 
 void printList(Node* head) {
@@ -46,11 +70,90 @@ void printList(Node* head) {
 	}
 }
 
-void addToHeadList(Node* head) {
-	Node* current;
-	current = head;
+int listLen(Node* head) {
 	int i = 0;
-	if (current != NULL) {
-		Node* newNode;
+	while (head != NULL) {
+		
+		head = head->next;
+		i++;
 	}
+	printf("The len of the list is: %d\n", i);
+	return i;
+}
+
+Node* insert_at_head(Node* head, int new_value) {
+	Node* new_node = (Node*)calloc(1, sizeof(Node)); // corrected allocation size to sizeof(Node)
+	new_node->value = new_value;
+	new_node->next = head;
+	return new_node;
+}
+
+Node* insert_at_tail(Node* head, int new_value) {
+	Node* new_node = (Node*)calloc(1, sizeof(Node)); // corrected allocation size to sizeof(Node)
+	new_node->value = new_value;
+
+	if (head == NULL)
+		return new_node; //return the new list
+	else{
+		Node* current = head;
+		while (current->next != NULL)
+		{
+			current = current->next;
+		}
+		current->next = new_node;
+		return head; //return the already existing head
+	}
+}
+
+Node* deleteNodeAtHead(Node* head) {
+	if (head == NULL)
+		return NULL;
+	else {
+		Node* to_return = head->next;
+		free(head);
+		return to_return;
+	}
+}
+
+Node* deleteNodeAtTail(Node* head) {
+	if (head == NULL)
+		return NULL;
+	else {
+		// If there is only one node in the list
+		if (head->next == NULL) {
+			free(head);
+			return NULL;
+		}
+		Node* current = head;
+
+		// Traverse the list to find the second to last node
+		while (current->next->next != NULL) {
+			current = current->next;
+		}
+		free(current->next); 	// Free the last node
+
+		current->next = NULL; 	// Set the second to last node's next pointer to NULL
+
+		return head;
+	}
+}
+
+int search(Node* head, int value) {
+	if (head == NULL) {
+		return -1; // List is empty
+	}
+	int i = 0;
+	while (head->next != NULL) {
+		if (head->value == value)
+		{
+			printf("The value is in index: %d\n", i);
+			return i;
+		}
+
+	head = head->next;
+	i++;
+	}
+	
+	return -1;
+
 }
