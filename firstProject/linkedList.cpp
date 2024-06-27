@@ -21,8 +21,8 @@ Node* deleteNodeAtTail(Node* head);
 bool isMember(Node* node, int value);
 int searchIndex(Node* head, int value);
 int matchCounter(Node* node, int value);
-
-
+int matchReplace(Node* node, int originalVal, int newVal);
+Node* matchDelete(Node* head, int value);
 
 int main() {
 	//create the nodes
@@ -55,7 +55,12 @@ int main() {
 	listLen(n);
 	if(isMember(n,2))
 		searchIndex(n, 2);
-	printf("Matches were found: %d", matchCounter(n, 2));
+	printf("Matches were found: %d\n", matchCounter(n, 2));
+
+	matchReplace(n, 2, 7777);
+	printList(n);
+	n = matchDelete(n, 7777);
+	printList(n);
 
 	free(n);
 	return 0;
@@ -170,8 +175,51 @@ int searchIndex(Node* head, int value) {
 
 int matchCounter(Node* node, int value) {
 	if (node == NULL)
-		return false;
+		return 0;
 	else if (node->value == value)
 		return 1+matchCounter(node->next, value); //counts the matches 1+ means that return the found match and all the other matches that might be 
 	else return matchCounter(node->next, value);
+}
+
+int matchReplace(Node* node, int originalVal, int newVal) {
+	if (node == NULL)
+		return 0;
+	else
+		if (node->value == originalVal)
+			node->value = newVal;
+			
+	return matchReplace(node->next, originalVal, newVal);
+
+}
+
+Node* matchDelete(Node* head, int value) {
+	if (head == NULL)
+		return head;
+
+	// Handle cases where the head node contains the value
+	while (head != NULL && head->value == value) {
+		Node* temp = head;
+		head = head->next;
+		free(temp);
+	}
+
+	// If list becomes empty after removing matching head nodes
+	if (head == NULL) {
+		return head;
+	}
+
+	Node* current = head;
+	// Traverse the list to find the second to last node
+	while (current != NULL && current->next != NULL) {
+		if (current->next->value == value) {
+			Node* temp = current->next;
+			current->next = current->next->next; //assign the next next to the current link
+			free(temp); //free the next link
+		}
+		else {
+			current = current->next;
+		}
+
+	}
+	return head;
 }
