@@ -23,10 +23,13 @@ int searchIndex(Node* head, int value);
 int matchCounter(Node* node, int value);
 int matchReplace(Node* node, int originalVal, int newVal);
 Node* matchDelete(Node* head, int value);
+Node* appendLists(Node* head1, Node* head2);
+
 
 int main() {
 	//create the nodes
 	Node *n = NULL;
+	Node* n2 = NULL;
 
 	//testing functions
 	
@@ -62,17 +65,27 @@ int main() {
 	n = matchDelete(n, 7777);
 	printList(n);
 
+	n2 = insert_at_tail(n2, 31);
+	n2 = insert_at_head(n2, 22);
+	n2 = insert_at_head(n2, 21);
+	n2 = insert_at_head(n2, 53);
+	n2 = insert_at_tail(n2, 14);
+	n2 = insert_at_head(n2, 212);
+
+	printf("\n\n");
+	n = appendLists(n, n2);
+	printList(n);
+
 	free(n);
+	//free(n2);
 	return 0;
 }
 
 void printList(Node* head) {
-	Node* current;
-	current = head; //copying\assigning the pointer (address)
 	int i = 0;
-	while (current != NULL) {
-		printf("Node %d: %d\n", i, current->value);
-		current = current->next;
+	while (head != NULL) {
+		printf("Node %d: %d\n", i, head->value);
+		head = head->next;
 		i++;
 	}
 }
@@ -222,4 +235,24 @@ Node* matchDelete(Node* head, int value) {
 
 	}
 	return head;
+}
+
+Node* appendLists(Node* head1, Node* head2) {
+	// If the first list is empty, return the second list
+	if (head1 == NULL) 
+		return head2;
+	
+	if (head2 == NULL)
+		return head1;
+
+	// Find the end of the first list
+	Node* current = head1;
+	while (current->next != NULL) {
+		current = current->next;
+	}
+
+	// Append the second list to the end of the first list
+	current->next = head2;
+
+	return head1;
 }
