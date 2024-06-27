@@ -20,7 +20,7 @@ Node* deleteNodeAtHead(Node* head);
 Node* deleteNodeAtTail(Node* head);
 bool isMember(Node* node, int value);
 int searchIndex(Node* head, int value);
-
+int matchCounter(Node* node, int value);
 
 
 
@@ -47,15 +47,15 @@ int main() {
 
 	n = insert_at_head(n, 53);
 	n = insert_at_head(n, 72);
-	n = insert_at_head(n, 56);
+	n = insert_at_head(n, 2);
 	n = insert_at_head(n, 54);
 	n = insert_at_head(n, 61);
-	n = insert_at_head(n, 22);
+	n = insert_at_head(n, 2);
 	printList(n);
 	listLen(n);
 	if(isMember(n,2))
 		searchIndex(n, 2);
-
+	printf("Matches were found: %d", matchCounter(n, 2));
 
 	free(n);
 	return 0;
@@ -166,4 +166,12 @@ int searchIndex(Node* head, int value) {
 	
 	return -1;
 
+}
+
+int matchCounter(Node* node, int value) {
+	if (node == NULL)
+		return false;
+	else if (node->value == value)
+		return 1+matchCounter(node->next, value); //counts the matches 1+ means that return the found match and all the other matches that might be 
+	else return matchCounter(node->next, value);
 }
