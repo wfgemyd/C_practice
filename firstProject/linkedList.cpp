@@ -24,7 +24,7 @@ int matchCounter(Node* node, int value);
 int matchReplace(Node* node, int originalVal, int newVal);
 Node* matchDelete(Node* head, int value);
 Node* appendLists(Node* head1, Node* head2);
-
+Node* reverseList(Node* head);
 
 int main() {
 	//create the nodes
@@ -74,6 +74,10 @@ int main() {
 
 	printf("\n\n");
 	n = appendLists(n, n2);
+	printList(n);
+
+	printf("\n\n");
+	n = reverseList(n);
 	printList(n);
 
 	free(n);
@@ -255,4 +259,25 @@ Node* appendLists(Node* head1, Node* head2) {
 	current->next = head2;
 
 	return head1;
+}
+
+Node* reverseList(Node* head) {
+	if (head == NULL)
+		return head;
+	if (head->next == NULL)
+		return head;
+
+	Node* prev = NULL;
+	Node* current = head;
+	Node* next = NULL;
+
+	while (current != NULL) {
+		next = current->next; // Store the next node
+		current->next = prev; // Reverse the current nodes pointer
+		prev = current; // Move pointers one position ahead
+		current = next;
+	}
+
+	head = prev;
+	return head;
 }
