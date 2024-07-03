@@ -25,6 +25,9 @@ int matchReplace(Node* node, int originalVal, int newVal);
 Node* matchDelete(Node* head, int value);
 Node* appendLists(Node* head1, Node* head2);
 Node* reverseList(Node* head);
+Node* getMidList(Node* head);
+Node* mergeList(Node* left, Node* right);
+Node* mergeSort(Node* head);
 
 int main() {
 	//create the nodes
@@ -80,8 +83,30 @@ int main() {
 	n = reverseList(n);
 	printList(n);
 
-	free(n);
-	//free(n2);
+	// Insert values into the list
+	n = insert_at_head(n, 7);
+	n = insert_at_head(n, 3);
+	n = insert_at_head(n, 5);
+	n = insert_at_head(n, 1);
+	n = insert_at_head(n, 9);
+
+	printf("Original List:\n");
+	printList(n);
+
+	// Sort the list
+	n = mergeSort(n);
+
+	printf("Sorted List:\n");
+	printList(n);
+
+	// Free all nodes in the list
+	Node* current = n;
+	while (current != NULL) {
+		Node* to_free = current;
+		current = current->next;
+		free(to_free);
+	}
+
 	return 0;
 }
 
@@ -280,4 +305,68 @@ Node* reverseList(Node* head) {
 
 	head = prev;
 	return head;
+}
+
+Node* getMidList(Node* head) {
+	if (head == NULL) {
+		return head;
+	}
+
+	Node* slow = head;
+	Node* fast = head;
+
+	// Move fast pointer twice as fast as slow pointer
+	while (fast->next != NULL && fast->next->next != NULL) {
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+
+	return slow;
+}
+
+Node* mergeList(Node* left, Node* right) {
+	if (left == NULL) {
+		return right;
+	}
+	if (right == NULL) {
+		return left;
+	}
+
+	Node* result = NULL;
+
+	// Compare the data of the two lists and put the smaller one in the result
+	if (left->value <= right->value) {
+		// If the value in the left list is smaller or equal, select it
+		result = left;
+		// Recursively merge the rest of the left list (left->next) with the entire right list
+		result->next = mergeList(left->next, right);
+	}
+	else {
+		// If the value in the right list is smaller, select it
+		result = right;
+		// Recursively merge the rest of the right list (right->next) with the entire left list
+		result->next = mergeList(left, right->next);
+	}
+
+	return result;
+}
+
+Node* mergeSort(Node* head) {
+	if (head == NULL || head->next == NULL) {
+		return head; // Base case: if the list is empty or has one node, it's already sorted
+	}
+
+	// Split the list into two halves
+	Node* left = head;
+	Node* right = getMidList(head);
+	Node* temp = right->next;
+	right->next = NULL; // Split the list into two parts
+	right = temp;
+
+	// Recursively sort the two halves
+	left = mergeSort(left);
+	right = mergeSort(right);
+
+	// Merge the two sorted halves
+	return mergeList(left, right);
 }
