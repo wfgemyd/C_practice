@@ -28,6 +28,8 @@ Node* reverseList(Node* head);
 Node* getMidList(Node* head);
 Node* mergeList(Node* left, Node* right);
 Node* mergeSort(Node* head);
+void bubbleSort(Node* head);
+void deleteDup(Node* head);
 
 int main() {
 	//create the nodes
@@ -370,3 +372,69 @@ Node* mergeSort(Node* head) {
 	// Merge the two sorted halves
 	return mergeList(left, right);
 }
+
+void bubbleSort(Node* head) {
+	// Check if the list is empty or has only one node
+	if (head == NULL)
+		return;
+	if (head->next == NULL)
+		return;
+
+	bool swapped;
+
+	// Repeat the process until no swaps are needed
+	do {
+		swapped = false;
+		Node* current = head;
+		Node* prev = NULL;
+
+		// Traverse the list
+		while (current->next != NULL) {
+			prev = current;         // Keep track of the previous node
+			current = current->next; // Move to the next node
+
+			// Compare the current node's value with the previous node's value
+			if (current != NULL) {
+				if (current->value < prev->value) { //can be changed to > for reversed sorting
+					// Swap the values if the current node's value is smaller
+					int temp = prev->value;
+					prev->value = current->value;
+					current->value = temp;
+					swapped = true; // Indicate that a swap occurred
+				}
+			}
+		}
+
+	} while (swapped); // Repeat until no swaps are needed
+}
+
+void deleteDup(Node* head) {
+	// Check if the list is empty or has only one node
+	if (head == NULL)
+		return;
+	if (head->next == NULL)
+		return;
+
+	Node* current1, * current2, * duplicate;
+	current1 = head;
+
+	// Traverse the list with current1 pointer
+	while (current1 != NULL && current1->next != NULL) {
+		current2 = current1;
+
+		// Traverse the list with current2 pointer to find duplicates of current1
+		while (current2->next != NULL) {
+			// If a duplicate is found
+			if (current1->value == current2->next->value) {
+				duplicate = current2->next;// Store the duplicate node
+				current2->next = current2->next->next;// Remove the duplicate node from the list
+				free(duplicate);// Free the memory of the duplicate node
+			}
+			else {
+				current2 = current2->next;// Move to the next node if no duplicate is found
+			}
+		}
+		current1 = current1->next;// Move to the next node in the outer loop
+	}
+}
+
